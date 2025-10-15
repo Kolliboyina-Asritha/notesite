@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account</title>
+  <link rel="stylesheet" href="signup.css">
+  <style>
+    /* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Background */
+body {
+  background: linear-gradient(to bottom right, #e6f4ea, #f3f8fd);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+}
+
+/* Signup container */
+.container {
+  width: 100%;
+  max-width: 450px;
+}
+
+/* Signup card */
+.signup-box {
+  background: white;
+  padding: 40px 35px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Headings */
+h1 {
+  font-size: 28px;
+  color: #0a0a0a;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+h2 {
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.small-text {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 25px;
+}
+
+/* Form styling */
+form {
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 18px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+input:focus {
+  border-color: #2bb673;
+  outline: none;
+  box-shadow: 0 0 5px rgba(43, 182, 115, 0.3);
+}
+
+/* Button */
+.btn {
+  width: 100%;
+  background: #13b77a;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background: #0fa76b;
+}
+.signup-text {
+  font-size: 14px;
+  margin-top: 18px;
+  color: #555;
+}
+
+.signup-text a {
+  color: #13b77a;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.signup-text a:hover {
+  text-decoration: underline;
+}
+
+/* ✅ RESPONSIVE DESIGN */
+@media (max-width: 600px) {
+  body {
+    background: white;
+    padding: 15px;
+    height: auto;
+  }
+
+  .signup-box {
+    box-shadow: none;
+    padding: 30px 20px;
+    border: 1px solid #e5e5e5;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  input {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .btn {
+    padding: 12px;
+    font-size: 15px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="signup-box">
+      <h1>Create Account</h1>
+      <p class="subtitle">Join Notes Manager to organize your thoughts</p>
+
+      <h2>Sign Up</h2>
+      <p class="small-text">Create your account to get started</p>
+
+      <form id="signUpForm">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Enter your name" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="john@example.com" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Create a password" required>
+
+        <label for="confirm-password">Confirm Password</label>
+        <input type="password" id="confirm-password" placeholder="Confirm your password" required>
+
+        <button type="submit" class="btn">Create Account</button>
+      </form>
+      
+      <p class="signup-text">
+        already have an account?
+        <a href="login.html">login</a>
+      </p>
+    </div>
+  </div>
+</body>
+<script>
+
+   document.getElementById('signUpForm').addEventListener('submit',async (e)=>{
+    e.preventDefault();
+
+
+   const username=document.getElementById('username').value;
+   const email=document.getElementById('email').value;
+   const password=document.getElementById('password').value;
+   const confirmpwd=document.getElementById('confirm-password').value;
+   
+      if (password !== confirmpwd) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+    try{
+   const res = await fetch('/register',{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json'
+        },
+    
+        body:JSON.stringify({
+            user:username,
+           email: email,
+            pwd:password
+        })
+    });
+    const data= await res.json();
+    if(res.ok){
+        alert(data.success||"registration succesful");
+          window.location.href = "login.html";
+    }
+    else {
+          alert(data.message || "Registration failed.");
+     }
+    }
+    catch (error){
+        console.error("Error:", error);
+        alert("Something went wrong. Please try again later.");
+    }
+ })
+
+</script>
+</html>

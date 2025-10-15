@@ -14,7 +14,7 @@ const handlerefreshtoken=async (req,res)=>{
              if(err) return res.sendStatus(403);
              console.log("attempted to reuse refreshtoken");
              const hackeduser=await userDB.findOne({username:decoded.username}).exec();
-             hackeduser.refrehToken=[];
+             hackeduser.refreshToken=[];
              const result=await hackeduser.save();
              console.log(result);
             }
@@ -32,7 +32,7 @@ const handlerefreshtoken=async (req,res)=>{
          async (err,decoded)=>{
             if(err){
                 console.log("expired refreshtoken");
-                foundUser.refrehToken=[...newRefreshTokenArray];
+                foundUser.refreshToken=[...newRefreshTokenArray];
                 const result=await foundUser.save();
                 console.log(result);
             }
@@ -55,7 +55,7 @@ const handlerefreshtoken=async (req,res)=>{
                     {expiresIn:'1d'}
                    )
                    //saving new refresh token with the user found
-                    foundUser.refrehToken=[...newRefreshTokenArray,newRefreshToken];
+                    foundUser.refreshToken=[...newRefreshTokenArray,newRefreshToken];
                     const result=await foundUser.save();
                     console.log(result);
                     console.log(roles);

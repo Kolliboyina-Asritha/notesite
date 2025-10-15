@@ -1,4 +1,4 @@
-const userDB=require('./model/users.js');
+const userDB=require('../model/users');
 const bcrypt=require('bcrypt');
 
 const handlenewuser=async (req,res)=>{
@@ -8,13 +8,15 @@ const handlenewuser=async (req,res)=>{
     if(duplicate) return res.json({"message":"duplicates are not allowed"})
     try{
     const hashedpwd=await bcrypt.hash(pwd,10);
-    const newUser=userDB.create({
-      "username":user,
-      "email":email,
-      "password":hashedpwd
+    const newUser= await userDB.create({
+      username:user,
+      email:email,
+      password:hashedpwd
     });
-    res.json(newUser);
-    res.status(201).json({"success":`${newUser} created`});
+    res.status(201).json({
+    success: `New user ${user} created successfully`
+     });
+
   }
   catch (err) {
     res.status(500).json({"message":err.message})

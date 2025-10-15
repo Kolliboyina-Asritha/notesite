@@ -1,12 +1,392 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notes Manager</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+            * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+        background-color: #f9fffb;
+        color: #1a1a1a;
+        }
+
+        /* Navbar */
+        .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 5%;
+        background: white;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+        font-size: 1.2rem;
+        }
+
+        .logo-icon {
+        background: #00b37d;
+        color: white;
+        font-weight: bold;
+        border-radius: 8px;
+        padding: 8px 12px;
+        margin-right: 10px;
+        }
+
+        .nav-buttons a {
+        text-decoration: none;
+        margin-left: 20px;
+        font-weight: 500;
+        }
+
+        .nav-buttons .signin {
+        color: #000;
+        }
+
+        .nav-buttons .get-started {
+        background: #00b37d;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 6px;
+        }
+
+        /* Hero */
+        .hero {
+        text-align: center;
+        padding: 80px 10%;
+        background: #f2fffa;
+        }
+
+        .hero h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+        background: linear-gradient(90deg, #0077b6, #6a0dad);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+        color: #444;
+        margin-top: 20px;
+        font-size: 1.1rem;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        }
+
+        .hero-buttons {
+        margin-top: 30px;
+        }
+
+        .hero-buttons a {
+        display: inline-block;
+        padding: 12px 20px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        margin: 10px;
+        }
+
+        .start-notes {
+        background: #00b37d;
+        color: white;
+        }
+
+        .signin-btn {
+        background: white;
+        border: 1px solid #ccc;
+        color: #000;
+        }
+
+        /* Features */
+        .features {
+        text-align: center;
+        padding: 70px 10%;
+        background: #f9fffb;
+        }
+
+        .features h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        }
+
+        .features p {
+        color: #555;
+        margin-top: 10px;
+        margin-bottom: 40px;
+        }
+
+        .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+        }
+
+        .feature-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        padding: 30px 20px;
+        text-align: left;
+        transition: transform 0.2s ease;
+        }
+
+        .feature-card:hover {
+        transform: translateY(-5px);
+        }
+
+        .icon {
+        font-size: 2rem;
+        background: #c7f9cc;
+        color: #00b37d;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        }
+
+        /* Testimonials */
+        .testimonials {
+        text-align: center;
+        padding: 70px 10%;
+        background: #f5fbff;
+        }
+
+        .testimonials h2 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        }
+
+        .testimonials p {
+        color: #555;
+        margin-bottom: 40px;
+        }
+
+        .testimonial-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+        gap: 25px;
+        }
+
+        .testimonial-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        padding: 25px;
+        text-align: left;
+        }
+
+        .stars {
+        color: gold;
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        }
+
+        .testimonial-card h4 {
+        margin-top: 15px;
+        font-weight: 600;
+        }
+
+        .testimonial-card span {
+        color: #666;
+        font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+        text-align: center;
+        padding: 20px;
+        background: white;
+        color: #777;
+        font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+    /* Navbar */
+    .navbar {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 15px 5%;
+    }
+
+    .nav-buttons {
+      margin-top: 10px;
+      width: 100%;
+      display:none;
+      justify-content: space-between;
+    }
+
+    .nav-buttons a {
+      margin-left: 0;
+      padding: 8px 12px;
+      flex: 1;
+      text-align: center;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 50px 5%;
+    }
+
+    .hero h1 {
+      font-size: 2rem;
+    }
+
+    .hero p {
+      font-size: 1rem;
+    }
+
+    .hero-buttons a {
+      display: block;
+      margin: 10px auto;
+      width: 60%;
+    }
+
+    /* Features Section */
+    .features {
+      padding: 50px 5%;
+    }
+
+    .feature-card {
+      padding: 20px 15px;
+    }
+
+    /* Testimonials Section */
+    .testimonials {
+      padding: 50px 5%;
+    }
+
+    .testimonial-card {
+      padding: 20px 15px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 15px 5%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero h1 {
+      font-size: 1.6rem;
+    }
+
+    .hero p {
+      font-size: 0.95rem;
+    }
+
+    .features h2, .testimonials h2 {
+      font-size: 1.5rem;
+    }
+
+    .features p, .testimonials p {
+      font-size: 0.9rem;
+    }
+
+    .feature-card h3, .testimonial-card h4 {
+      font-size: 1.1rem;
+    }
+  }
+  </style>
 </head>
 <body>
-    <h1>Welcome to the home page</h1>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">
+      <div class="logo-icon">N</div>
+      <span>Notes Manager</span>
+    </div>
+    <div class="nav-buttons">
+      <a href="login.html" class="signin">Sign In</a>
+      <a href="signup.html" class="get-started">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1><span>Organize Your Thoughts,</span><br />Boost Your Productivity</h1>
+    <p>
+      The modern notes manager that helps you capture ideas, organize tasks, and stay productive.
+      Beautiful, fast, and designed for the way you work.
+    </p>
+    <div class="hero-buttons">
+      <a href="signup.html" class="start-notes">Start Taking Notes →</a>
+      <a href="login.html" class="signin-btn">Sign In</a>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <h2>Everything you need to stay organized</h2>
+    <p>Powerful features designed to make note-taking effortless and enjoyable</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="icon">📝</div>
+        <h3>Easy Note Taking</h3>
+        <p>Create, edit, and organize your notes with our intuitive interface.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🔍</div>
+        <h3>Powerful Search</h3>
+        <p>Find any note instantly with our advanced search and filter system.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🗂️</div>
+        <h3>Smart Organization</h3>
+        <p>Group notes by categories, tags, or custom folders effortlessly.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📱</div>
+        <h3>Mobile Friendly</h3>
+        <p>Access your notes anywhere, anytime with our mobile-optimized design.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <h2>Loved by thousands of users</h2>
+    <p>See what our community has to say about Notes Manager</p>
+
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"This notes app has completely transformed how I organize my thoughts and tasks. The category system is brilliant!"</p>
+        <h4>Sarah Johnson</h4>
+        <span>Product Manager</span>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Perfect for keeping track of my study notes and ideas. The search function saves me so much time."</p>
+        <h4>Mike Chen</h4>
+        <span>Student</span>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"Clean, simple, and exactly what I needed. The mobile version works flawlessly too."</p>
+        <h4>Emily Davis</h4>
+        <span>Freelancer</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Notes Manager. All rights reserved.</p>
+  </footer>
 </body>
 </html>

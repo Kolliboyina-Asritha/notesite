@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In</title>
+  <link rel="stylesheet" href="login.css">
+  <style>
+    /* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Background and layout */
+body {
+  background: linear-gradient(to bottom right, #e6f4ea, #f3f8fd);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: 420px;
+}
+
+/* Card */
+.login-box {
+  background: white;
+  padding: 40px 35px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo/Icon */
+.icon {
+  background: #13b77a;
+  color: white;
+  font-weight: 700;
+  font-size: 22px;
+  width: 55px;
+  height: 55px;
+  line-height: 55px;
+  border-radius: 12px;
+  margin: 0 auto 18px;
+}
+
+/* Headings */
+h1 {
+  font-size: 26px;
+  color: #111;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: #666;
+  margin-bottom: 25px;
+}
+
+h2 {
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.small-text {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 25px;
+}
+
+/* Form */
+form {
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 18px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+input:focus {
+  border-color: #2bb673;
+  outline: none;
+  box-shadow: 0 0 5px rgba(43, 182, 115, 0.3);
+}
+
+/* Password field with eye icon */
+.password-box {
+  position: relative;
+}
+
+.password-box input {
+  width: 100%;
+  padding-right: 35px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  user-select: none;
+  font-size: 16px;
+}
+
+/* Button */
+.btn {
+  width: 100%;
+  background: #13b77a;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background: #0fa76b;
+}
+
+/* Footer text */
+.signup-text {
+  font-size: 14px;
+  margin-top: 18px;
+  color: #555;
+}
+
+.signup-text a {
+  color: #13b77a;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.signup-text a:hover {
+  text-decoration: underline;
+}
+
+/* ✅ Responsive */
+@media (max-width: 600px) {
+  body {
+    background: white;
+    height: auto;
+  }
+
+  .login-box {
+    box-shadow: none;
+    border: 1px solid #e5e5e5;
+    padding: 30px 20px;
+  }
+
+  .icon {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 20px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .btn {
+    padding: 12px;
+    font-size: 15px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="login-box">
+      <div class="icon">N</div>
+      <h1>Welcome Back</h1>
+      <p class="subtitle">Sign in to your Notes Manager account</p>
+
+      <h2>Sign In</h2>
+      <p class="small-text">Enter your email and password to continue</p>
+
+      <form id="loginForm">
+        <label for="user">Username</label>
+        <input type="text" id="user" placeholder="enter your username" required>
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="john@example.com" required>
+
+        <label for="pwd">Password</label>
+        <div class="password-box">
+          <input type="password" id="pwd" placeholder="Enter your password" required>
+          <span class="toggle-password" onclick="togglePassword()">👁️</span>
+        </div>
+
+        <button type="submit" class="btn">Sign In</button>
+      </form>
+
+      <p class="signup-text">
+        Don't have an account?
+        <a href="signup.html">Sign up</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const password = document.getElementById("password");
+      password.type = password.type === "password" ? "text" : "password";
+    }
+    let accessToken='';
+    document.getElementById('loginForm').addEventListener('submit',async (e)=>{
+        e.preventDefault();
+       const user=document.getElementById('user').value;
+       const email=document.getElementById('email').value;
+       const pwd=document.getElementById('pwd').value;
+        try{
+        const res=await fetch('/auth',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({user,email,pwd})
+        })
+        const data= await res.json();
+        if(res.ok){
+            accessToken=data.accessToken;
+            alert('login succesful');
+            window.location.href='profilepage.html'
+        }
+        else{
+            alert(data.message || 'Login failed!');
+        }
+    }
+    catch (err){
+        console.error('Error:', err);
+        alert('Something went wrong');
+    }
+    })
+  </script>
+</body>
+</html>

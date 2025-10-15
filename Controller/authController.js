@@ -3,7 +3,7 @@ const bcrypt=require('bcrypt');
 const jwt=require('jsonwebtoken');
 const handleLogin= async (req,res)=>{
     const cookies=req.cookies;
-    console.log(`cookies already available at login ${json.stringify(cookies)}`);
+    console.log(`cookies already available at login ${JSON.stringify(cookies)}`);
     const {user,email,pwd}=req.body;
     if(!user||!pwd||!email) return res.json({"message":"username ,password and email are required"})
     const foundUser=await userDB.findOne({username:user}).exec();
@@ -30,8 +30,8 @@ const handleLogin= async (req,res)=>{
        //rotation:-new refreshtoken replaces old each time user logs in or refreshes
        let newRefreshTokenArray=
            !cookies?.jwt
-           ?foundUser.refrehToken
-           :foundUser.refrehToken.filter(rt=>rt!==cookies.jwt)//deletes the string(refreshtoken)that already exists in the cookie.
+           ?(foundUser.refreshToken||[])
+           :(foundUser.refreshToken.filter(rt=>rt!==cookies.jwt||[]))//deletes the string(refreshtoken)that already exists in the cookie.
         //reuse detection
         if(cookies?.jwt){
             const refrehToken=cookies.jwt;
@@ -43,7 +43,7 @@ const handleLogin= async (req,res)=>{
             res.clearCookie('jwt',{httpOnly:true});
         }
         //saving new refresh token with the user found
-        foundUser.refrehToken=[...newRefreshTokenArray,newRefreshToken];
+        foundUser.refreshToken=[...newRefreshTokenArray,newRefreshToken];
         const result=await foundUser.save();
         console.log(result);
         console.log(roles);
